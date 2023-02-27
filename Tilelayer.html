@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add a third party vector tile source</title>
+<script src="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.js"></script>
+<link href="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.css" rel="stylesheet" />
+<style>
+  body {margin: 0; padding: 0;}
+  #map {position: absolute; top: 0; bottom: 0; width: 100%;}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    const key = 'q184BEDoYYcoaGslxQ3U';
+    var map = new maplibregl.Map({
+        container: 'map',
+        style:
+            `https://api.maptiler.com/maps/streets-v2/style.json?key=${key}`,
+        zoom: 12,
+        center: [-87.622088, 41.878781]
+    });
+
+    map.on('load', function () {
+        // Add Mapillary sequence layer.
+        // https://www.mapillary.com/developer/tiles-documentation/#sequence-layer
+        map.addSource('mapillary', {
+            'type': 'vector',
+            'tiles': [
+                'https://tiles.mapillary.com/maps/vtp/mly1_public/2/{z}/{x}/{y}?access_token=q184BEDoYYcoaGslxQ3U'
+            ],
+            'minzoom': 6,
+            'maxzoom': 14
+        });
+        map.addLayer(
+            {
+                'id': 'mapillary',
+                'type': 'line',
+                'source': 'mapillary',
+                'source-layer': 'sequence',
+                'layout': {
+                    'line-cap': 'round',
+                    'line-join': 'round'
+                },
+                'paint': {
+                    'line-opacity': 0.6,
+                    'line-color': 'rgb(53, 175, 109)',
+                    'line-width': 2
+                }
+            },
+            'water_line'
+        );
+    });
+
+    map.addControl(new maplibregl.NavigationControl());
+</script>
+</body>
+</html>

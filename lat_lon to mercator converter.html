@@ -1,0 +1,35 @@
+
+<!-- saved from url=(0043)https://mal2.ch/stuff/latlontomercator.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>lat/lon to mercator converter</title>
+    <script type="text/javascript">
+        <!--
+function displayResult()
+{
+  var lat = eval(document.getElementById("lat").value)
+  var lon = eval(document.getElementById("lon").value)
+  document.getElementById("merc").value = lonLatToMercator(lat,lon)
+}
+
+        function lonLatToMercator(a_lat,a_lon) {
+           var lon = a_lon * 20037508.34 / 180;
+           var lat = Math.log(Math.tan((90 + a_lat) * Math.PI / 360)) / (Math.PI / 180);
+           lat = lat * 20037508.34 / 180;
+           return Math.round(lat)+","+Math.round(lon);
+        }
+
+        // -->
+    </script>
+  </head>
+  <body>
+    <form name="calc" action="https://mal2.ch/stuff/latlontomercator.html" onsubmit="displayResult();return false">
+      <p>
+      lat: <input type="text" id="lat" size="12">°<br>
+      lon: <input type="text" id="lon" size="12">°<br>
+      <input type="submit">
+      </p>
+      Mercator (lat/lon): <input type="text" readonly="readonly" id="merc"><br>
+    </form>
+  
+
+</body></html>

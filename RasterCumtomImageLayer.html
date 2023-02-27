@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Display a raster image</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.js"></script>
+    <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        const key = 'q184BEDoYYcoaGslxQ3U';
+        const map = new maplibregl.Map({
+            container: 'map', // container id
+            style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${key}`, // style URL
+            center: [4.64086758, 50.90013625], //  [lng, lat]
+            zoom: 17
+        });
+        const bingKey = 'AjjABHuTPGiWpdvrygfikJ320jXW7tiad1rSewOFeVVcaNygcZXA_LK_03PfR60I';
+        
+        map.on('load', function() {
+             //Define the tile source using custom tiles of Hurricane Katrina for zoom level 1-10
+            //  var katrinaTileSource = new Microsoft.Maps.TileSource({
+            //     uriConstructor: 'https://bingmapsisdk.blob.core.windows.net/katrinatiles/{quadkey}.png',
+            //     minZoom: 1,
+            //     maxZoom: 10,
+            //     bounds: Microsoft.Maps.LocationRect.fromEdges(35.176, -101.065, 14.01, -80.538)
+            // });
+
+
+            
+        });
+        map.on('error', function(err) {
+            throw new Error("To load the map, you must replace YOUR_MAPTILER_API_KEY_HERE first, see README");
+        });        
+    </script>
+</body>
+</html>

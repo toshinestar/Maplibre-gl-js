@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Display a custom map</title>
+  <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.js"></script>
+  <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.css" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      position: absolute;
+      top:30px;
+      bottom: 0;
+      width: 100%;
+    }
+    #convertResult {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      height: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div id="convertResult"><button onclick="{showNativeLayer()}">NativeLayer</button><button onclick="{showYandexLayer()}">YandexLayer</button><span id="testswitch"></span></div>
+  <div id="map"></div>
+  <script>
+      const key = 'q184BEDoYYcoaGslxQ3U	';
+      let zoomRate = 1;
+      let centerPoint = [-74.5, 40]
+
+      function showNativeLayer(){
+        document.getElementById("testswitch").innerHTML = "-----------------------NativePressed----------------";
+        const map = new maplibregl.Map({
+        container: 'map', // container's id or the HTML element in which MapLibre GL JS will render the map
+        style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${key}`, // style URL
+        center: centerPoint, // starting position [lng, lat]
+        zoom: zoomRate, // starting zoom
+      });
+      
+            // map.addSource("raster-tiles", {
+            //   type: 'raster',
+            //   tiles: ['https://core-sat.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}'],
+            //   tileSize: 256,
+            // });
+            
+
+            // map.addLayer({
+            //   id: "overlay",
+            //   source: "raster-tiles",
+            //   type: "raster",
+            //   paint: {
+            //       "raster-opacity": 0.5
+            //   },
+            //   layout: {
+            //     visibility: 'visible',
+            //   }
+            // });
+            // map.setStyle('https://core-sat.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}');
+          }
+      window.onload = showYandexLayer();
+
+      function showYandexLayer(){
+        document.getElementById("testswitch").innerHTML = "----------------------YandexPressed------------------";
+        var map = new maplibregl.Map({
+        container: 'map', // container id
+        style: {
+            'version': 8,
+            'sources': {
+                'raster-tiles': {
+                    'type': 'raster',
+                    'tiles': [
+                        'https://core-sat.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}'
+                    ],
+                    'tileSize': 256,
+                    'attribution':
+                        'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
+                }
+            },
+            'layers': [
+                {
+                    'id': 'simple-tiles',
+                    'type': 'raster',
+                    'source': 'raster-tiles',
+                    'minzoom': 0,
+                    'maxzoom': 22
+                }
+            ]
+        },
+        center: [-74.5, 40], // starting position
+        zoom: 1 // starting zoom
+    });
+      }
+            // Add Mapillary sequence layer.
+        // https://www.mapillary.com/developer/tiles-documentation/#sequence-layer
+        
+    //   map.on('load', function () {
+    
+    // });
+
+      //   let R2D = 180 / Math.PI;
+      //   let D2R = Math.PI / 180;
+      //   // 900913 properties.
+      //   let A = 6378137.0;
+      //   let MAXEXTENT = 20037508.342789244;
+      //   function toWGS84(xy) {
+      //        return[
+      //         (xy[0] * R2D / A),
+      //         ((Math.PI * 0.5) - 2.0 * Math.atan(Math.exp(-xy[1]/A))) * R2D
+      //       ];
+      //     }
+
+      //     function toMercator(ll){
+      //           var xy = [
+      //               A * ll[0] * D2R,
+      //               A * Math.log(Math.tan((Math.PI * 0.25) + (0.5 * ll[1] * D2R)))
+      //           ];
+      //           // if xy value is beyond maxextent (e.g. poles), return maxextent.
+      //           (xy[0] > MAXEXTENT) && (xy[0] = MAXEXTENT);
+      //           (xy[0] < -MAXEXTENT) && (xy[0] = -MAXEXTENT);
+      //           (xy[1] > MAXEXTENT) && (xy[1] = MAXEXTENT);
+      //           (xy[1] < -MAXEXTENT) && (xy[1] = -MAXEXTENT);
+      //           return xy;
+      //       }
+
+
+
+      // map.on('load', function() {
+      //       map.addSource("aerial-source", {
+      //           "type": "image",
+      //           "url": "https://core-sat.maps.yandex.net/tiles?l=sat&x=204&y=85&z=8",
+      //           "coordinates": [
+      //           toWGS84([526485.0001229358,6603777.058697802]),
+      //           toWGS84([526752.52972193406,6603777.058697802]),
+      //           toWGS84([526752.52972193406,6603509.529098802]),
+      //           toWGS84([526485.0001229358,6603509.529098802])
+      //           ]
+      //       });
+      //       map.addLayer({
+      //           "id": "overlay",
+      //           "source": "aerial-source",
+      //           "type": "raster",
+      //           "paint": {
+      //               "raster-opacity": 0.85
+      //           }
+      //       });
+      //   });
+
+      //   document.getElementById("convertResult").innerHTML ="WGS84: ["+  toWGS84([516485.0001229358,6603777.058697802])+"],"+
+      //       "["+toWGS84([516752.52972193406,6603777.058697802])+"],"+
+      //       "["+toWGS84([516752.52972193406,6603509.529098802])+"]," +
+      //       "["+toWGS84([516485.0001229358,6603509.529098802])+"]";
+      
+        // map.addSource("aerial-source", {
+        //         "type": "image",
+        //         "url": "'https://core-sat.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}'",
+        //         "coordinates": [
+        //             [4.639663696289062, 50.900867668253724],
+        //             [4.642066955566406, 50.900867668253724],
+        //             [4.642066955566406, 50.89935199434383],
+        //             [4.639663696289062, 50.89935199434383]
+        //         ]
+        //     });
+
+        //         map.addSource('aerial-source', {
+        //     'type': 'vector',
+        //     'tiles': ['https://core-sat.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}'],
+        //     'minzoom': 6,
+        //     'maxzoom': 14
+        // });
+        //     map.addLayer({
+        //         "id": "overlay",
+        //         "source": "aerial-source",
+        //         "type": "raster",
+        //         "paint": {
+        //             "raster-opacity": 0.85
+        //         }
+        //     });
+
+      // map.addSource(id, {
+      //   type: 'raster',
+      //   tiles: ["https://core-sat.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}"],
+      //   });
+
+      //   map.addLayer({
+      //   'id': id,
+      //   'type': 'raster',
+      //   'source': id,
+      //   });
+  </script>
+</body>
+</html>
